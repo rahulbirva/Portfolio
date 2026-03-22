@@ -176,6 +176,30 @@ document.addEventListener('DOMContentLoaded', () => {
         }, { threshold: 0.3 });
         statsObserver.observe(statsContainer);
     }
+
+    // 8. Coming Soon Terminal - Open Source
+    const ossLines = [
+        '<span class="term-prompt">rahul@dev:~/open-source$</span> <span class="term-command">git init awesome-project</span>',
+        '<span class="term-output">Initialized empty Git repository in ~/open-source/awesome-project/.git/</span>',
+        '<span class="term-output">[INFO] Scanning for contribution opportunities...</span>',
+        '<span class="term-success">[OK] Found 3 potential projects matching your stack</span>',
+        '<span class="term-output">[INFO] Preparing first pull request...</span>',
+        '<span class="term-warning">⚠  STATUS: COMING SOON</span>',
+        '<span class="term-success">Open source contributions are on the way. Stay tuned!</span>',
+    ];
+    typeWriterTerminal('oss-terminal-content', ossLines, 600);
+
+    // 9. Coming Soon Terminal - Mentor Feedback
+    const mentorLines = [
+        '<span class="term-prompt">rahul@campus:~/feedback$</span> <span class="term-command">cat mentor_reviews.log</span>',
+        '<span class="term-output">Searching for mentor reviews...</span>',
+        '<span class="term-output">[INFO] Connecting to university feedback portal...</span>',
+        '<span class="term-success">[OK] Connection established</span>',
+        '<span class="term-output">[INFO] Fetching testimonials from mentors...</span>',
+        '<span class="term-warning">⚠  STATUS: COMING SOON</span>',
+        '<span class="term-success">Mentor testimonials will be published here soon!</span>',
+    ];
+    typeWriterTerminal('mentor-terminal-content', mentorLines, 600);
 });
 
 /**
