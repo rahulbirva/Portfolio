@@ -154,4 +154,101 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.style.overflow = '';
         });
     }
+
+    // 6. Fetch Real GitHub Commit Count
+    fetchGitHubCommits('rahulbirva');
 });
+
+/**
+ * Fetches the total number of GitHub commits for a user across all public repos.
+ * Uses the GitHub Search Commits API to count commits authored by the user.
+ */
+async function fetchGitHubCommits(username) {
+    const commitEl = document.getElementById('github-commits-count');
+    if (!commitEl) return;
+
+    try {
+        // Use the GitHub Search Commits API to count total commits by the user
+        const response = await fetch(
+            `https://api.github.com/search/commits?q=author:${username}`,
+            {
+                headers: {
+                    'Accept': 'application/vnd.github.cloak-preview+json'
+                }
+            }
+        );
+
+        if (response.ok) {
+            const data = await response.json();
+            const totalCommits = data.total_count;
+
+            // Animate the number counting up
+            animateCount(commitEl, totalCommits);
+        } else {
+            // Fallback: try to count via events API (limited to recent events)
+            await fetchCommitsFromEvents(username, commitEl);
+        }
+    } catch (error) {
+        console.warn('GitHub API fetch failed, using fallback:', error);
+        commitEl.textContent = '200+';
+    }
+}
+
+/**
+ * Fallback: Count commits from the GitHub Events API (last 90 days, max 300 events).
+ */
+async function fetchCommitsFromEvents(username, commitEl) {
+    try {
+        let totalCommits = 0;
+        // Fetch up to 3 pages of events
+        for (let page = 1; page <= 3; page++) {
+            const res = await fetch(
+                `https://api.github.com/users/${username}/events?per_page=100&page=${page}`
+            );
+            if (!res.ok) break;
+            const events = await res.json();
+            if (events.length === 0) break;
+
+            events.forEach(event => {
+                if (event.type === 'PushEvent' && event.payload && event.payload.commits) {
+                    totalCommits += event.payload.commits.length;
+                }
+            });
+        }
+
+        if (totalCommits > 0) {
+            animateCount(commitEl, totalCommits);
+        } else {
+            commitEl.textContent = '200+';
+        }
+    } catch {
+        commitEl.textContent = '200+';
+    }
+}
+
+/**
+ * Smoothly animate a number counting up from 0 to the target value.
+ */
+function animateCount(element, target) {
+    const duration = 1500; // ms
+    const startTime = performance.now();
+
+    function update(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+
+        // Ease out cubic for smooth deceleration
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const current = Math.floor(eased * target);
+
+        element.textContent = current.toLocaleString() + '+';
+
+        if (progress < 1) {
+            requestAnimationFrame(update);
+        } else {
+            element.textContent = target.toLocaleString() + '+';
+        }
+    }
+
+    requestAnimationFrame(update);
+}
