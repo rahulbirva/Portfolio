@@ -1,0 +1,317 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rahul | CS Student & Developer</title>
+    <!-- Import premium, modern fonts suitable for a tech/developer aesthetic -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Dynamic Navbar -->
+    <nav id="navbar">
+        <div class="container nav-content">
+            <a href="#hero" class="brand">Rahul._Portfolio</a>
+            <div class="nav-links">
+                <a href="#about">Journey</a>
+                <a href="#skills">Arsenal</a>
+                <a href="#projects">Architectures</a>
+                <a href="#oss">Open Source</a>
+                <a href="#testimonials">Testimonials</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Massive Hero Section -->
+        <section id="hero">
+            <div class="glow-orb"></div>
+            <div class="glow-orb-right"></div>
+            <div class="container">
+                <!-- Profile Photo (Replace src with your actual photo path) -->
+                <div class="profile-photo-wrapper">
+                    <img src="rahul.jpeg" alt="My Photo" class="profile-photo" id="my-photo">
+                </div>
+
+                <div class="hero-badge">
+                    <div class="pulse"></div>
+                    Available for Internships & Junior Roles
+                </div>
+                <h1 class="hero-title">
+                    Student building the internet's
+                    <span class="hl">backbone.</span>
+                </h1>
+                <p class="hero-subtitle">
+                    I am Rahul, a Computer Science student and Backend Developer. I'm passionate about mastering
+                    microservices, deep-diving into databases, and writing clean, scalable code.
+                </p>
+                <div class="cta-group">
+                    <a href="#projects" class="btn btn-primary">Analyze Systems</a>
+                    <a href="#contact" class="btn btn-secondary">Contact Me</a>
+                </div>
+            </div>
+
+            <!-- Statistics Bar (Expansive feel) -->
+            <div class="container reveal" style="margin-top: 5rem;">
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <div class="stat-num">4+</div>
+                        <div class="stat-label">Major Projects</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-num">500+</div>
+                        <div class="stat-label">GitHub Commits</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-num">3.8</div>
+                        <div class="stat-label">GPA (CS Major)</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Journey (Timeline) Section -->
+        <section id="about" class="container reveal">
+            <div class="section-header">
+                <h2 class="section-title">Education & Growth</h2>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <span class="timeline-date">2024 - Present</span>
+                    <div class="timeline-content">
+                        <h3>Computer Science Student | University</h3>
+                        <p>Focusing on Data Structures, Algorithms, and Cloud Architectures. Active member of the
+                            university's Web Development Club. Leading a team of 4 students to build a campus-wide event
+                            aggregation API.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <span class="timeline-date">Summer 2025</span>
+                    <div class="timeline-content">
+                        <h3>Backend Engineering Intern | Tech Startup</h3>
+                        <p>Engineered secure REST APIs and maintained CI/CD GitHub Actions pipelines for a fast-paced
+                            team. Optimized PostgreSQL aggregations, decreasing database query times by 20% in
+                            production.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <span class="timeline-date">2023 - 2024</span>
+                    <div class="timeline-content">
+                        <h3>Self-Taught Origins</h3>
+                        <p>Began my journey building full-stack applications with Node.js and MongoDB. Solved real-world
+                            problems through code and mastered the fundamentals of server-side data validation.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Arsenal Section -->
+        <section id="skills" class="container reveal">
+            <div class="section-header">
+                <h2 class="section-title">Technical Arsenal</h2>
+            </div>
+
+            <div class="skills-grid">
+                <div class="skill-card" tabindex="0">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg"
+                        alt="Node.js & Express" class="skill-logo">
+                    <p>High-throughput APIs & Services</p>
+                </div>
+                <div class="skill-card" tabindex="0">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg"
+                        alt="PostgreSQL" class="skill-logo">
+                    <p>Relational Data & Deep Optimization</p>
+                </div>
+                <div class="skill-card" tabindex="0">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original.svg"
+                        alt="MongoDB" class="skill-logo">
+                    <p>NoSQL Clusters & Aggregation Pipes</p>
+                </div>
+                <div class="skill-card" tabindex="0">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg"
+                        alt="Docker" class="skill-logo">
+                    <p>Container Orchestration & Delivery</p>
+                </div>
+                <div class="skill-card" tabindex="0">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redis/redis-original.svg"
+                        alt="Redis" class="skill-logo">
+                    <p>Lightning Fast Caching & Task Queues</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Projects Section -->
+        <section id="projects" class="container reveal">
+            <div class="section-header">
+                <h2 class="section-title">Scale Architectures</h2>
+            </div>
+
+            <div class="projects-list">
+                <!-- Project 1 -->
+                <div class="project-row">
+                    <div class="project-visual" id="term1">
+                        <div class="terminal-header">
+                            <div class="terminal-dot dot-red"></div>
+                            <div class="terminal-dot dot-yellow"></div>
+                            <div class="terminal-dot dot-green"></div>
+                        </div>
+                        <div class="terminal-body" id="term1-content">
+                            <!-- Populated by JS for typewriter effect -->
+                        </div>
+                    </div>
+                    <div class="project-info">
+                        <h3>Capstone Project: Distributed Task Engine</h3>
+                        <p>Architected a high-throughput job queue system for my final year University Capstone.
+                            Implemented exponential retry logic, dynamic rate limiting, and real-time socket monitoring
+                            to learn how enterprise systems handle deep loads.</p>
+                        <div class="tech-stack">
+                            <span class="tech-pill">Node.js</span>
+                            <span class="tech-pill">Redis</span>
+                            <span class="tech-pill">Docker</span>
+                            <span class="tech-pill">Socket.io</span>
+                        </div>
+                        <a href="#" class="btn btn-secondary">View System Design</a>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-row reveal">
+                    <div class="project-info">
+                        <h3>Hackathon Winner: Microservices API</h3>
+                        <p>Designed a cleanly separated, domain-driven microservices architecture during a 48-hour
+                            Hackathon. Built a robust API gateway and centralized JWT auth flows, ultimately winning the
+                            "Best Technical Architecture" award.</p>
+                        <div class="tech-stack">
+                            <span class="tech-pill">Express Auth</span>
+                            <span class="tech-pill">PostgreSQL</span>
+                            <span class="tech-pill">Vercel Edge</span>
+                            <span class="tech-pill">Redis Cache</span>
+                        </div>
+                        <a href="#" class="btn btn-secondary">Review Source</a>
+                    </div>
+                    <div class="project-visual" id="term2">
+                        <div class="terminal-header">
+                            <div class="terminal-dot dot-red"></div>
+                            <div class="terminal-dot dot-yellow"></div>
+                            <div class="terminal-dot dot-green"></div>
+                        </div>
+                        <div class="terminal-body" id="term2-content">
+                            <!-- Populated by JS for typewriter effect -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Open Source Section -->
+        <section id="oss" class="container reveal short-section">
+            <div class="section-header">
+                <h2 class="section-title">Open Source Init</h2>
+            </div>
+
+            <div class="github-grid">
+                <div class="repo-card">
+                    <div class="repo-header">
+                        <span class="repo-title">express-rate-limiter-pro</span>
+                        <div class="repo-stats">
+                            <div class="repo-stat">⭐ 1.2k</div>
+                            <div class="repo-stat">🔱 340</div>
+                        </div>
+                    </div>
+                    <p class="repo-desc">A highly scalable, Redis-backed rate limiter drop-in middleware for Express.js.
+                        Built for vast enterprise AP gateway protection.</p>
+                    <div class="tech-stack" style="margin-bottom: 0;">
+                        <span class="tech-pill">TypeScript</span>
+                        <span class="tech-pill">Redis</span>
+                    </div>
+                </div>
+
+                <div class="repo-card">
+                    <div class="repo-header">
+                        <span class="repo-title">postgres-schema-analyzer</span>
+                        <div class="repo-stats">
+                            <div class="repo-stat">⭐ 850</div>
+                            <div class="repo-stat">🔱 120</div>
+                        </div>
+                    </div>
+                    <p class="repo-desc">CLI tool that parses PostgreSQL databases and outputs deep analysis on missing
+                        indexes, redundant columns, and query bloat.</p>
+                    <div class="tech-stack" style="margin-bottom: 0;">
+                        <span class="tech-pill">Node.js</span>
+                        <span class="tech-pill">PostgreSQL</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials / Mentorship Section -->
+        <section id="testimonials" class="reveal">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Mentor Feedback</h2>
+                </div>
+
+                <div class="testimonial-grid">
+                    <div class="testimonial-card">
+                        <p class="quote-text">"Rahul showed an exceptional grasp of complex server architectures in my
+                            advanced databases class. He didn't just complete the assignments; he optimized them to run
+                            10x faster than required. A brilliant student."</p>
+                        <div class="client-info">
+                            <div class="client-avatar">Dr</div>
+                            <div class="client-details">
+                                <h4>Dr. Sarah Vargas</h4>
+                                <p>Professor of Systems Engineering</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="testimonial-card">
+                        <p class="quote-text">"I mentored Rahul during his summer internship and was blown away. He
+                            treats infrastructure methodically and safely. His ability to learn Docker deployments and
+                            implement them flawlessly into our pipeline was incredibly impressive."</p>
+                        <div class="client-info">
+                            <div class="client-avatar">MD</div>
+                            <div class="client-details">
+                                <h4>Marcus Dell</h4>
+                                <p>Senior Developer (Internship Mentor)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="container reveal">
+            <div class="contact-card">
+                <h3>Let's build my career.</h3>
+                <p>Currently looking for Backend Engineering internships, junior roles, or just an opportunity to learn
+                    from the best in the industry. Provide your endpoint, and I'll ping back.</p>
+                <div class="social-links">
+                    <a href="mailto:hello@rahul.com" target="_blank">Send an Email</a>
+                    <a href="https://github.com/rahul" target="_blank">My GitHub</a>
+                    <a href="https://linkedin.com/in/rahul" target="_blank">My LinkedIn</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Architected & Assembled by Rahul. © 2026. Data streams secured.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
