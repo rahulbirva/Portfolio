@@ -157,6 +157,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 6. Fetch Real GitHub Commit Count
     fetchGitHubCommits('rahulbirva');
+
+    // 7. Animate Stats on Scroll (Projects & CGPA)
+    const statsContainer = document.querySelector('.stats-container');
+    if (statsContainer) {
+        const statsObserver = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                // Animate Major Projects count
+                const projectsEl = document.getElementById('projects-count');
+                if (projectsEl) animateCount(projectsEl, 4);
+
+                // Animate CGPA with decimal precision
+                const cgpaEl = document.getElementById('cgpa-count');
+                if (cgpaEl) animateDecimalCount(cgpaEl, 7.04, 2);
+
+                statsObserver.disconnect();
+            }
+        }, { threshold: 0.3 });
+        statsObserver.observe(statsContainer);
+    }
 });
 
 /**
@@ -247,6 +266,35 @@ function animateCount(element, target) {
             requestAnimationFrame(update);
         } else {
             element.textContent = target.toLocaleString() + '+';
+        }
+    }
+
+    requestAnimationFrame(update);
+}
+
+/**
+ * Smoothly animate a decimal number counting up from 0 to the target value.
+ * @param {HTMLElement} element - The DOM element to update
+ * @param {number} target - The target decimal value (e.g. 7.04)
+ * @param {number} decimals - Number of decimal places to show
+ */
+function animateDecimalCount(element, target, decimals) {
+    const duration = 1500;
+    const startTime = performance.now();
+
+    function update(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const current = (eased * target).toFixed(decimals);
+
+        element.textContent = current;
+
+        if (progress < 1) {
+            requestAnimationFrame(update);
+        } else {
+            element.textContent = target.toFixed(decimals);
         }
     }
 
