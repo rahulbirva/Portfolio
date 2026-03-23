@@ -7,9 +7,9 @@
     --border-light: #374151;
     --text-main: #f9fafb;
     --text-muted: #9ca3af;
-    --accent-glow: rgba(16, 185, 129, 0.15);
-    --primary: #10b981;
-    --primary-hover: #059669;
+    --accent-glow: rgba(168, 85, 247, 0.15);
+    --primary: #a855f7;
+    --primary-hover: #9333ea;
 }
 
 * {
@@ -204,14 +204,14 @@ section.short-section {
     border-radius: 50%;
     object-fit: cover;
     border: 3px solid var(--border-subtle);
-    box-shadow: 0 0 30px rgba(16, 185, 129, 0.15);
+    box-shadow: 0 0 30px rgba(168, 85, 247, 0.15);
     transition: transform 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 .profile-photo:hover {
     transform: scale(1.05) translateY(-5px);
     border-color: var(--primary);
-    box-shadow: 0 10px 40px rgba(16, 185, 129, 0.3);
+    box-shadow: 0 10px 40px rgba(168, 85, 247, 0.3);
 }
 
 .hero-badge {
@@ -219,8 +219,8 @@ section.short-section {
     align-items: center;
     gap: 0.5rem;
     padding: 0.6rem 1.2rem;
-    background: rgba(16, 185, 129, 0.1);
-    border: 1px solid rgba(16, 185, 129, 0.3);
+    background: rgba(168, 85, 247, 0.1);
+    border: 1px solid rgba(168, 85, 247, 0.3);
     border-radius: 50px;
     color: var(--primary);
     font-weight: 600;
@@ -240,15 +240,15 @@ section.short-section {
 
 @keyframes pulse-ring {
     0% {
-        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+        box-shadow: 0 0 0 0 rgba(168, 85, 247, 0.4);
     }
 
     70% {
-        box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+        box-shadow: 0 0 0 6px rgba(168, 85, 247, 0);
     }
 
     100% {
-        box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+        box-shadow: 0 0 0 0 rgba(168, 85, 247, 0);
     }
 }
 
@@ -260,7 +260,7 @@ section.short-section {
     letter-spacing: -3.5px;
     margin-bottom: 1.5rem;
     max-width: 900px;
-    background: linear-gradient(to right, #10b981, #ffffff, #10b981, #ffffff, #10b981);
+    background: linear-gradient(to right, #a855f7, #ffffff, #a855f7, #ffffff, #a855f7);
     background-size: 200% auto;
     -webkit-background-clip: text;
     background-clip: text;
@@ -280,17 +280,17 @@ section.short-section {
 @keyframes shineLights {
     0% {
         background-position: 0% center;
-        filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.4));
+        filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.4));
     }
     33% {
         filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.3));
     }
     66% {
-        filter: drop-shadow(0 0 15px rgba(16, 185, 129, 0.6));
+        filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.6));
     }
     100% {
         background-position: -200% center;
-        filter: drop-shadow(0 0 10px rgba(16, 185, 129, 0.4));
+        filter: drop-shadow(0 0 10px rgba(168, 85, 247, 0.4));
     }
 }
 
@@ -427,7 +427,7 @@ section.short-section {
 /* JOURNEY / ABOUT TIMELINE */
 /* ------------------------------------- */
 #about {
-    background: radial-gradient(circle at right center, rgba(16, 185, 129, 0.03), transparent 50%);
+    background: radial-gradient(circle at right center, rgba(168, 85, 247, 0.03), transparent 50%);
 }
 
 .timeline {
@@ -466,7 +466,7 @@ section.short-section {
     border: 2px solid var(--primary);
     border-radius: 50%;
     z-index: 2;
-    box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.5);
 }
 
 .timeline-date {
@@ -530,9 +530,9 @@ section.short-section {
 }
 
 .skill-card:hover {
-    border-color: rgba(16, 185, 129, 0.5);
-    background: rgba(16, 185, 129, 0.05);
-    box-shadow: 0 15px 30px -10px rgba(16, 185, 129, 0.2);
+    border-color: rgba(168, 85, 247, 0.5);
+    background: rgba(168, 85, 247, 0.05);
+    box-shadow: 0 15px 30px -10px rgba(168, 85, 247, 0.2);
     z-index: 10;
 }
 
@@ -648,7 +648,7 @@ section.short-section {
 }
 
 .dot-green {
-    background: #22c55e;
+    background: #a855f7;
 }
 
 .terminal-body {
@@ -673,7 +673,7 @@ section.short-section {
 }
 
 .term-success {
-    color: #10b981;
+    color: #a855f7;
 }
 
 .term-warning {
@@ -1210,7 +1210,7 @@ footer {
     max-width: 90vw;
     max-height: 90vh;
     border-radius: 20px;
-    box-shadow: 0 0 50px rgba(16, 185, 129, 0.3);
+    box-shadow: 0 0 50px rgba(168, 85, 247, 0.3);
     border: 2px solid var(--primary);
     transform: scale(0.8);
     transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
