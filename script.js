@@ -133,14 +133,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const profilePhoto = document.getElementById('my-photo');
     if (profilePhoto) {
         profilePhoto.style.cursor = 'zoom-in';
-        
+
         const overlay = document.createElement('div');
         overlay.className = 'photo-overlay';
-        
+
         const zoomedImg = document.createElement('img');
         zoomedImg.src = profilePhoto.src;
         zoomedImg.className = 'zoomed-photo';
-        
+
         overlay.appendChild(zoomedImg);
         document.body.appendChild(overlay);
 
@@ -233,7 +233,7 @@ async function fetchGitHubCommits(username) {
         }
     } catch (error) {
         console.warn('GitHub API fetch failed, using fallback:', error);
-        commitEl.textContent = '200+';
+        commitEl.textContent = '200';
     }
 }
 
@@ -262,10 +262,10 @@ async function fetchCommitsFromEvents(username, commitEl) {
         if (totalCommits > 0) {
             animateCount(commitEl, totalCommits);
         } else {
-            commitEl.textContent = '200+';
+            commitEl.textContent = '200';
         }
     } catch {
-        commitEl.textContent = '200+';
+        commitEl.textContent = '200';
     }
 }
 
@@ -284,12 +284,12 @@ function animateCount(element, target) {
         const eased = 1 - Math.pow(1 - progress, 3);
         const current = Math.floor(eased * target);
 
-        element.textContent = current.toLocaleString() + '+';
+        element.textContent = current.toLocaleString();
 
         if (progress < 1) {
             requestAnimationFrame(update);
         } else {
-            element.textContent = target.toLocaleString() + '+';
+            element.textContent = target.toLocaleString();
         }
     }
 
