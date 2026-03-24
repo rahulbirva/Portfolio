@@ -158,6 +158,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // 6. Fetch Real GitHub Commit Count
     fetchGitHubCommits('rahulbirva');
 
+    let targetProjectCount = 4;
+    let projectsAnimated = false;
+    fetchGitHubProjects('rahulbirva').then(count => {
+        targetProjectCount = count;
+        if (projectsAnimated) {
+            const projectsEl = document.getElementById('projects-count');
+            if (projectsEl) animateCount(projectsEl, targetProjectCount);
+        }
+    });
+
     // 7. Animate Stats on Scroll (Projects & CGPA)
     const statsContainer = document.querySelector('.stats-container');
     if (statsContainer) {
@@ -165,7 +175,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (entries[0].isIntersecting) {
                 // Animate Major Projects count
                 const projectsEl = document.getElementById('projects-count');
-                if (projectsEl) animateCount(projectsEl, 4);
+                if (projectsEl) {
+                    animateCount(projectsEl, targetProjectCount);
+                    projectsAnimated = true;
+                }
 
                 // Animate CGPA with decimal precision
                 const cgpaEl = document.getElementById('cgpa-count');
@@ -323,4 +336,20 @@ function animateDecimalCount(element, target, decimals) {
     }
 
     requestAnimationFrame(update);
+}
+
+/**
+ * Fetches the total number of public repositories for a user.
+ */
+async function fetchGitHubProjects(username) {
+    try {
+        const response = await fetch(`https://api.github.com/users/${username}`);
+        if (response.ok) {
+            const data = await response.json();
+            return data.public_repos;
+        }
+    } catch (error) {
+        console.warn('GitHub API fetch failed for projects:', error);
+    }
+    return 4; // Fallback
 }
