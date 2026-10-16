@@ -1,57 +1,57 @@
-# 🛡️ Rahul Poojary — Cybersecurity Portfolio
+# Rahul Poojary Portfolio
 
-A dark-themed, interactive personal portfolio website showcasing skills, projects, and experience in cybersecurity and backend development.
+The portfolio for [rahulpoojary.in](https://rahulpoojary.in), built as a React + Vite single-page experience with a fixed React Three Fiber background.
 
-## 🌐 Live Website
+## Features
 
-**[rahulpoojary.in](https://rahulpoojary.in)**
+- Existing portfolio copy and section order retained in the React overlay.
+- Procedural refractive ice monoliths rendered with `MeshTransmissionMaterial`.
+- A 3,200-particle custom GPU shader data stream.
+- HDRI environment reflections, bloom, and scroll-velocity chromatic aberration.
+- GSAP and ScrollTrigger section choreography.
+- Lenis smooth scrolling synchronized with ScrollTrigger and the WebGL scene.
+- Reduced-motion fallback that disables continuous motion and reveals content immediately.
+- Responsive 375px-first layout with lazy-loaded profile and skill images.
 
-## ✨ Features
+## Tech Stack
 
-- 🖥️ Terminal-style boot sequence animation
-- 🌧️ Binary rain background effect
-- 🖱️ Custom cursor with glow effects
-- 💻 Command-line skill interface
-- 🃏 3D-tilting project cards
-- 📜 Scroll-triggered animations
-- 📱 Fully responsive design
-- 🎨 Consistent hacker aesthetic with neon glow typography
+- React 18 and Vite
+- React Three Fiber, Three.js, Drei, and React Three Postprocessing
+- GSAP, ScrollTrigger, and Lenis
+- Tailwind CSS build tooling with project-specific CSS for the editorial layout
+- Lucide React for small external-link affordances
 
-## 🛠️ Tech Stack
-
-- **HTML5** — Semantic structure
-- **CSS3** — Custom animations, glassmorphism, and glow effects
-- **JavaScript** — Interactive elements and canvas animations
-
-## 📁 Project Structure
-
-```
-Portfolio/
-├── index.html      # Main HTML file (single-page application)
-├── style.css       # All styles, animations, and responsive layouts
-├── script.js       # JavaScript logic, animations, and interactivity
-└── rahul.jpeg      # Profile image
-```
-
-## 🚀 Running Locally
-
-Simply open `index.html` in your browser — no build step required.
+## Run locally
 
 ```bash
-# Clone the repository
-git clone https://github.com/rahulbirva/Portfolio.git
-
-# Navigate to the project folder
-cd Portfolio
-
-# Open in browser
-open index.html
+npm install
+npm run dev
 ```
 
-## 📬 Contact
+Then open the local URL printed by Vite. To create a production build:
 
-- 🌐 Website: [rahulpoojary.in](https://rahulpoojary.in)
+```bash
+npm run build
+```
 
----
+## Project structure
 
-> *"In a world full of vulnerabilities, be the patch."*
+```text
+Portfolio/
+├── index.html
+├── style.css
+├── package.json
+├── vite.config.js
+├── tailwind.config.js
+├── postcss.config.js
+├── src/
+│   ├── App.jsx
+│   ├── BackgroundScene.jsx
+│   ├── IceMonolith.jsx
+│   ├── ParticleField.jsx
+│   ├── content.js
+│   ├── main.jsx
+│   ├── motionState.js
+│   └── tailwind.css
+└── rahul.jpeg
+```
