@@ -1,41 +1,31 @@
-// 1. Scroll Events handling (Navbar)
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const isSmallScreen = window.matchMedia('(max-width: 680px)').matches;
+const motionEnabled = !prefersReducedMotion && Boolean(window.gsap && window.ScrollTrigger);
+const gsap = window.gsap;
+const ScrollTrigger = window.ScrollTrigger;
+
+document.documentElement.classList.add('js-ready');
+
 const navbar = document.getElementById('navbar');
+const navLinks = Array.from(document.querySelectorAll('.nav-links a[data-section]'));
+const sections = Array.from(document.querySelectorAll('main > section'));
+const statTargets = {
+    projects: 4,
+    commits: 200,
+    cgpa: 7.04
+};
+let statsAnimated = false;
+let marqueeTweens = [];
+let lenis;
 
-window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-        navbar.classList.add('scrolled');
-    } else {
-        navbar.classList.remove('scrolled');
-    }
-});
-
-// 2. Reveal Elements on Scroll
-const reveals = document.querySelectorAll('.reveal');
-
-const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('active');
-            revealObserver.unobserve(entry.target);
-        }
-    });
-}, {
-    threshold: 0.1
-});
-
-reveals.forEach(reveal => {
-    revealObserver.observe(reveal);
-});
-
-// 3. Dynamic "Terminal Typing" effect for project visuals using DOM Manipulation
 const term1Lines = [
     '<span class="term-prompt">rahul@cluster:~/engine$</span> <span class="term-command">npm run scale:workers</span>',
     '<span class="term-output">[INFO] Linking to clustered Redis Core...</span>',
     '<span class="term-success">[OK] Message Broker connection authenticated</span>',
     '<span class="term-output">[INFO] Scaling BullMQ instances across 15 nodes...</span>',
-    '<span class="term-success">[OK] Worker node #102 online & listening</span>',
+    '<span class="term-success">[OK] Worker node #102 online &amp; listening</span>',
     '<span class="term-output">Processing job payload: {"id": 938217, "type": "img_process"}...</span>',
-    '<span class="term-success">Job 938217 compressed & saved in 14ms</span>',
+    '<span class="term-success">Job 938217 compressed &amp; saved in 14ms</span>',
     '<span class="term-output">Processing job payload: {"id": 938218, "type": "db_sync"}...</span>'
 ];
 
@@ -51,305 +41,425 @@ const term2Lines = [
     '<span class="term-success">HTTP/2 200 OK</span><br><span class="term-output">x-response-time: 4ms</span>'
 ];
 
-function typeWriterTerminal(elementId, lines, msDelay = 800) {
-    const el = document.getElementById(elementId);
-    if (!el) return;
+function renderTerminal(elementId, lines) {
+    const element = document.getElementById(elementId);
+    if (!element) return;
 
-    let i = 0;
-    const typeLine = () => {
-        if (i < lines.length) {
-            const lineDiv = document.createElement('div');
-            lineDiv.innerHTML = lines[i];
-            lineDiv.style.opacity = '0';
-            el.appendChild(lineDiv);
-
-            setTimeout(() => {
-                lineDiv.style.transition = 'opacity 0.2s ease';
-                lineDiv.style.opacity = '1';
-            }, 50);
-
-            i++;
-            setTimeout(typeLine, msDelay);
-        } else {
-            const cursor = document.createElement('span');
-            cursor.innerHTML = '█';
-            cursor.style.animation = 'blink 1s step-end infinite';
-            const cursorWrapper = document.createElement('div');
-            cursorWrapper.innerHTML = '<span class="term-prompt">rahul@server:~$</span> ';
-            cursorWrapper.appendChild(cursor);
-            el.appendChild(cursorWrapper);
-
-            if (!document.getElementById('cursor-style')) {
-                const style = document.createElement('style');
-                style.id = 'cursor-style';
-                style.innerHTML = '@keyframes blink { 0%, 100% {opacity: 1;} 50% {opacity: 0;} }';
-                document.head.appendChild(style);
-            }
-        }
-    };
-
-    const terminalObserver = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
-            setTimeout(typeLine, 800);
-            terminalObserver.disconnect();
-        }
-    }, { threshold: 0.1 });
-
-    terminalObserver.observe(el.parentElement);
+    element.innerHTML = lines.map((line) => `<div>${line}</div>`).join('');
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    typeWriterTerminal('term1-content', term1Lines, 700);
-    typeWriterTerminal('term2-content', term2Lines, 800);
+renderTerminal('term1-content', term1Lines);
+renderTerminal('term2-content', term2Lines);
 
-    // 4. Interactive 3D Tilt for Skill Cards
-    const skillCards = document.querySelectorAll('.skill-card');
-
-    skillCards.forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            const rotateX = ((y - centerY) / centerY) * -10;
-            const rotateY = ((x - centerX) / centerX) * 10;
-
-            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-        });
-
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
-            card.style.transition = 'transform 0.5s ease, box-shadow 0.4s ease, border-color 0.4s ease, background 0.4s ease';
-        });
-
-        card.addEventListener('mouseenter', () => {
-            card.style.transition = 'transform 0.1s ease';
-        });
+function showEverything() {
+    document.querySelectorAll('.line-inner, [data-reveal-copy], [data-timeline-entry]').forEach((element) => {
+        element.style.opacity = '1';
+        element.style.transform = 'none';
     });
 
-    // 5. Profile Photo Zoom Feature
-    const profilePhoto = document.getElementById('my-photo');
-    if (profilePhoto) {
-        profilePhoto.style.cursor = 'zoom-in';
-
-        const overlay = document.createElement('div');
-        overlay.className = 'photo-overlay';
-
-        const zoomedImg = document.createElement('img');
-        zoomedImg.src = profilePhoto.src;
-        zoomedImg.className = 'zoomed-photo';
-
-        overlay.appendChild(zoomedImg);
-        document.body.appendChild(overlay);
-
-        profilePhoto.addEventListener('click', () => {
-            overlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        });
-
-        overlay.addEventListener('click', () => {
-            overlay.classList.remove('active');
-            document.body.style.overflow = '';
-        });
-    }
-
-    // 6. Fetch Real GitHub Commit Count
-    fetchGitHubCommits('rahulbirva');
-
-    let targetProjectCount = 4;
-    let projectsAnimated = false;
-    fetchGitHubProjects('rahulbirva').then(count => {
-        targetProjectCount = count;
-        if (projectsAnimated) {
-            const projectsEl = document.getElementById('projects-count');
-            if (projectsEl) animateCount(projectsEl, targetProjectCount);
-        }
+    document.querySelectorAll('[data-project-visual]').forEach((element) => {
+        element.style.opacity = '1';
+        element.style.clipPath = 'inset(0 0 0 0)';
     });
 
-    // 7. Animate Stats on Scroll (Projects & CGPA)
-    const statsContainer = document.querySelector('.stats-container');
-    if (statsContainer) {
-        const statsObserver = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting) {
-                // Animate Major Projects count
-                const projectsEl = document.getElementById('projects-count');
-                if (projectsEl) {
-                    animateCount(projectsEl, targetProjectCount);
-                    projectsAnimated = true;
-                }
+    document.querySelectorAll('[data-project-parallax]').forEach((element) => {
+        element.style.transform = 'none';
+    });
 
-                // Animate CGPA with decimal precision
-                const cgpaEl = document.getElementById('cgpa-count');
-                if (cgpaEl) animateDecimalCount(cgpaEl, 7.04, 2);
+    document.querySelectorAll('.section-wash').forEach((element) => {
+        element.style.transform = 'scaleY(1)';
+    });
 
-                statsObserver.disconnect();
-            }
-        }, { threshold: 0.3 });
-        statsObserver.observe(statsContainer);
-    }
-
-    // 8. Coming Soon Terminal - Open Source
-    const ossLines = [
-        '<span class="term-prompt">rahul@dev:~/open-source$</span> <span class="term-command">git init awesome-project</span>',
-        '<span class="term-output">Initialized empty Git repository in ~/open-source/awesome-project/.git/</span>',
-        '<span class="term-output">[INFO] Scanning for contribution opportunities...</span>',
-        '<span class="term-success">[OK] Found 3 potential projects matching your stack</span>',
-        '<span class="term-output">[INFO] Preparing first pull request...</span>',
-        '<span class="term-warning">⚠  STATUS: COMING SOON</span>',
-        '<span class="term-success">Open source contributions are on the way. Stay tuned!</span>',
-    ];
-    typeWriterTerminal('oss-terminal-content', ossLines, 600);
-
-    // 9. Coming Soon Terminal - Mentor Feedback
-    const mentorLines = [
-        '<span class="term-prompt">rahul@campus:~/feedback$</span> <span class="term-command">cat mentor_reviews.log</span>',
-        '<span class="term-output">Searching for mentor reviews...</span>',
-        '<span class="term-output">[INFO] Connecting to university feedback portal...</span>',
-        '<span class="term-success">[OK] Connection established</span>',
-        '<span class="term-output">[INFO] Fetching testimonials from mentors...</span>',
-        '<span class="term-warning">⚠  STATUS: COMING SOON</span>',
-        '<span class="term-success">Mentor testimonials will be published here soon!</span>',
-    ];
-    typeWriterTerminal('mentor-terminal-content', mentorLines, 600);
-});
-
-/**
- * Fetches the total number of GitHub commits for a user across all public repos.
- * Uses the GitHub Search Commits API to count commits authored by the user.
- */
-async function fetchGitHubCommits(username) {
-    const commitEl = document.getElementById('github-commits-count');
-    if (!commitEl) return;
-
-    try {
-        // Use the GitHub Search Commits API to count total commits by the user
-        const response = await fetch(
-            `https://api.github.com/search/commits?q=author:${username}`,
-            {
-                headers: {
-                    'Accept': 'application/vnd.github.cloak-preview+json'
-                }
-            }
-        );
-
-        if (response.ok) {
-            const data = await response.json();
-            const totalCommits = data.total_count;
-
-            // Animate the number counting up
-            animateCount(commitEl, totalCommits);
-        } else {
-            // Fallback: try to count via events API (limited to recent events)
-            await fetchCommitsFromEvents(username, commitEl);
-        }
-    } catch (error) {
-        console.warn('GitHub API fetch failed, using fallback:', error);
-        commitEl.textContent = '200';
+    const heroPhoto = document.getElementById('hero-photo');
+    if (heroPhoto) {
+        heroPhoto.style.opacity = '1';
+        heroPhoto.style.clipPath = 'inset(0 0 0 0)';
     }
 }
 
-/**
- * Fallback: Count commits from the GitHub Events API (last 90 days, max 300 events).
- */
-async function fetchCommitsFromEvents(username, commitEl) {
-    try {
-        let totalCommits = 0;
-        // Fetch up to 3 pages of events
-        for (let page = 1; page <= 3; page++) {
-            const res = await fetch(
-                `https://api.github.com/users/${username}/events?per_page=100&page=${page}`
-            );
-            if (!res.ok) break;
-            const events = await res.json();
-            if (events.length === 0) break;
+function initIntro() {
+    const heroLines = document.querySelectorAll('#hero .line-inner');
+    const heroPhoto = document.getElementById('hero-photo');
+    const heroBadge = document.getElementById('hero-badge');
 
-            events.forEach(event => {
-                if (event.type === 'PushEvent' && event.payload && event.payload.commits) {
-                    totalCommits += event.payload.commits.length;
+    gsap.set(heroLines, { yPercent: 110 });
+    gsap.set(heroPhoto, { clipPath: 'inset(100% 0 0 0)', opacity: 0 });
+    gsap.set([navbar, heroBadge], { opacity: 0, y: 10 });
+
+    gsap.timeline({ defaults: { ease: 'power3.out' } })
+        .to(heroLines, { yPercent: 0, duration: 0.44, stagger: 0.1 })
+        .to(heroPhoto, { clipPath: 'inset(0% 0% 0% 0%)', opacity: 1, duration: 0.56 }, '-=0.16')
+        .to([navbar, heroBadge], { opacity: 1, y: 0, duration: 0.3, stagger: 0.05 }, '-=0.16');
+}
+
+function initSectionHeadings() {
+    document.querySelectorAll('.section-title .line-inner').forEach((heading) => {
+        gsap.set(heading, { yPercent: 110 });
+        gsap.to(heading, {
+            yPercent: 0,
+            duration: 0.7,
+            ease: 'power3.out',
+            scrollTrigger: {
+                trigger: heading.closest('.section-header'),
+                start: 'top 85%',
+                once: true
+            }
+        });
+    });
+}
+
+function initCopyReveals() {
+    const stagger = isSmallScreen ? 0.04 : 0.08;
+
+    sections.forEach((section) => {
+        const elements = section.querySelectorAll('[data-reveal-copy]');
+        if (!elements.length) return;
+
+        gsap.set(elements, { opacity: 0, y: 24 });
+        gsap.to(elements, {
+            opacity: 1,
+            y: 0,
+            duration: 0.62,
+            stagger,
+            ease: 'power3.out',
+            scrollTrigger: {
+                trigger: section,
+                start: 'top 85%',
+                once: true
+            }
+        });
+    });
+}
+
+function initTimeline() {
+    const timeline = document.querySelector('.timeline');
+    const line = document.querySelector('.timeline-line');
+    const entries = Array.from(document.querySelectorAll('[data-timeline-entry]'));
+    if (!timeline || !line || !entries.length) return;
+
+    gsap.set(line, { scaleY: 0 });
+    gsap.set(entries, { opacity: 0, y: 24 });
+
+    const timelineMotion = gsap.timeline({
+        scrollTrigger: {
+            trigger: timeline,
+            start: 'top 78%',
+            end: 'bottom 66%',
+            scrub: 0.55
+        }
+    });
+
+    timelineMotion.to(line, { scaleY: 1, duration: 1, ease: 'none' }, 0);
+    entries.forEach((entry, index) => {
+        timelineMotion.to(entry, {
+            opacity: 1,
+            y: 0,
+            duration: 0.22,
+            ease: 'power2.out'
+        }, index / entries.length);
+    });
+}
+
+function initProjects() {
+    document.querySelectorAll('[data-project-visual]').forEach((visual) => {
+        const inner = visual.querySelector('[data-project-parallax]');
+        gsap.set(visual, { clipPath: 'inset(0 100% 0 0)' });
+
+        gsap.to(visual, {
+            clipPath: 'inset(0 0% 0 0)',
+            duration: 0.9,
+            ease: 'power3.inOut',
+            scrollTrigger: {
+                trigger: visual,
+                start: 'top 85%',
+                once: true
+            }
+        });
+
+        if (inner) {
+            gsap.fromTo(inner, { yPercent: -8 }, {
+                yPercent: 8,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: visual,
+                    start: 'top bottom',
+                    end: 'bottom top',
+                    scrub: true
                 }
             });
         }
+    });
+}
 
-        if (totalCommits > 0) {
-            animateCount(commitEl, totalCommits);
-        } else {
-            commitEl.textContent = '200';
+function initToneTransitions() {
+    document.querySelectorAll('.tone-alt .section-wash').forEach((wash) => {
+        gsap.fromTo(wash, { scaleY: 0 }, {
+            scaleY: 1,
+            ease: 'none',
+            scrollTrigger: {
+                trigger: wash.parentElement,
+                start: 'top 92%',
+                end: 'top 52%',
+                scrub: true
+            }
+        });
+    });
+}
+
+function initMarquees() {
+    const tracks = Array.from(document.querySelectorAll('.skills-marquee-track, .marquee-track'));
+
+    tracks.forEach((track) => {
+        if (track.classList.contains('marquee-track')) {
+            const originalItems = Array.from(track.children);
+            originalItems.forEach((item) => track.appendChild(item.cloneNode(true)));
         }
-    } catch {
-        commitEl.textContent = '200';
+
+        const tween = gsap.to(track, {
+            xPercent: -50,
+            duration: track.classList.contains('skills-marquee-track') ? 34 : 28,
+            repeat: -1,
+            ease: 'none'
+        });
+        marqueeTweens.push(tween);
+    });
+}
+
+function renderCounter(element, value, decimals = 0) {
+    const formatted = decimals
+        ? Number(value).toFixed(decimals)
+        : Math.round(Number(value)).toLocaleString();
+    element.textContent = formatted;
+    element.dataset.value = String(value);
+}
+
+function animateCounter(element, target, decimals = 0, start = 0) {
+    if (!element) return;
+
+    if (!motionEnabled) {
+        renderCounter(element, target, decimals);
+        return;
+    }
+
+    const state = { value: Number(start) || 0 };
+    gsap.killTweensOf(state);
+    gsap.to(state, {
+        value: target,
+        duration: 1.4,
+        ease: 'power3.out',
+        onUpdate: () => renderCounter(element, state.value, decimals),
+        onComplete: () => renderCounter(element, target, decimals)
+    });
+}
+
+function initStats() {
+    const statsContainer = document.querySelector('.stats-container');
+    if (!statsContainer) return;
+
+    const animateStats = () => {
+        if (statsAnimated) return;
+        statsAnimated = true;
+        animateCounter(document.getElementById('projects-count'), statTargets.projects);
+        animateCounter(document.getElementById('github-commits-count'), statTargets.commits);
+        animateCounter(document.getElementById('cgpa-count'), statTargets.cgpa, 2);
+    };
+
+    if (motionEnabled) {
+        ScrollTrigger.create({
+            trigger: statsContainer,
+            start: 'top 85%',
+            once: true,
+            onEnter: animateStats
+        });
+    } else {
+        animateStats();
     }
 }
 
-/**
- * Smoothly animate a number counting up from 0 to the target value.
- */
-function animateCount(element, target) {
-    const duration = 1500; // ms
-    const startTime = performance.now();
+function moveNavIndicator(link, animate = motionEnabled) {
+    const indicator = document.querySelector('.nav-indicator');
+    const linkGroup = document.querySelector('.nav-links');
+    if (!indicator || !link || !linkGroup) return;
 
-    function update(currentTime) {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-
-        // Ease out cubic for smooth deceleration
-        const eased = 1 - Math.pow(1 - progress, 3);
-        const current = Math.floor(eased * target);
-
-        element.textContent = current.toLocaleString();
-
-        if (progress < 1) {
-            requestAnimationFrame(update);
-        } else {
-            element.textContent = target.toLocaleString();
-        }
+    const left = link.offsetLeft;
+    const width = link.offsetWidth;
+    if (animate) {
+        gsap.to(indicator, { x: left, width, duration: 0.35, ease: 'power3.out', overwrite: true });
+    } else {
+        indicator.style.transform = `translateX(${left}px)`;
+        indicator.style.width = `${width}px`;
     }
-
-    requestAnimationFrame(update);
 }
 
-/**
- * Smoothly animate a decimal number counting up from 0 to the target value.
- * @param {HTMLElement} element - The DOM element to update
- * @param {number} target - The target decimal value (e.g. 7.04)
- * @param {number} decimals - Number of decimal places to show
- */
-function animateDecimalCount(element, target, decimals) {
-    const duration = 1500;
-    const startTime = performance.now();
+function setActiveNav(sectionId, animate = motionEnabled) {
+    navLinks.forEach((link) => {
+        const active = link.dataset.section === sectionId;
+        link.classList.toggle('active', active);
+        if (active) link.setAttribute('aria-current', 'page');
+        else link.removeAttribute('aria-current');
+    });
 
-    function update(currentTime) {
-        const elapsed = currentTime - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-
-        const eased = 1 - Math.pow(1 - progress, 3);
-        const current = (eased * target).toFixed(decimals);
-
-        element.textContent = current;
-
-        if (progress < 1) {
-            requestAnimationFrame(update);
-        } else {
-            element.textContent = target.toFixed(decimals);
+    const activeLink = navLinks.find((link) => link.dataset.section === sectionId);
+    if (activeLink) moveNavIndicator(activeLink, animate);
+    else {
+        const indicator = document.querySelector('.nav-indicator');
+        if (indicator) {
+            if (animate) gsap.to(indicator, { width: 0, duration: 0.2 });
+            else indicator.style.width = '0';
         }
     }
-
-    requestAnimationFrame(update);
 }
 
-/**
- * Fetches the total number of public repositories for a user.
- */
+function updateActiveSection() {
+    const marker = window.innerHeight * 0.45;
+    let activeId = '';
+
+    sections.forEach((section) => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top <= marker && rect.bottom >= marker) activeId = section.id;
+    });
+
+    if (activeId && navLinks.some((link) => link.dataset.section === activeId)) {
+        setActiveNav(activeId, false);
+    } else if (!activeId || activeId === 'hero') {
+        setActiveNav('', false);
+    }
+}
+
+function updateNavVisibility(scroll) {
+    if (prefersReducedMotion || !navbar) return;
+    const previous = Number(navbar.dataset.lastScroll || 0);
+
+    if (scroll <= 24 || scroll < previous - 4) navbar.classList.remove('nav-hidden');
+    else if (scroll > previous + 4 && scroll > 80) navbar.classList.add('nav-hidden');
+
+    navbar.dataset.lastScroll = String(scroll);
+}
+
+function updateMarqueeSpeed(velocity = 0) {
+    if (!marqueeTweens.length) return;
+    const speed = Math.max(0.72, Math.min(1.55, 1 + Math.abs(velocity) / 1800));
+    marqueeTweens.forEach((tween) => {
+        tween.timeScale(speed);
+        gsap.to(tween, { timeScale: 1, duration: 0.8, overwrite: true });
+    });
+}
+
+function initNavigation() {
+    navLinks.forEach((link) => {
+        link.addEventListener('click', () => {
+            if (prefersReducedMotion) setTimeout(updateActiveSection, 0);
+        });
+    });
+
+    if (motionEnabled) {
+        navLinks.forEach((link) => {
+            const section = document.getElementById(link.dataset.section);
+            if (!section) return;
+
+            ScrollTrigger.create({
+                trigger: section,
+                start: 'top 45%',
+                end: 'bottom 45%',
+                onToggle: (self) => {
+                    if (self.isActive) setActiveNav(section.id, true);
+                }
+            });
+        });
+    } else {
+        window.addEventListener('scroll', updateActiveSection, { passive: true });
+        updateActiveSection();
+    }
+}
+
+function initLenis() {
+    if (!window.Lenis) return null;
+
+    const smoothScroll = new window.Lenis({
+        duration: 1.05,
+        smoothWheel: true,
+        syncTouch: false
+    });
+
+    smoothScroll.on('scroll', (event) => {
+        updateNavVisibility(event.scroll);
+        updateMarqueeSpeed(event.velocity);
+        ScrollTrigger.update();
+    });
+
+    gsap.ticker.add((time) => smoothScroll.raf(time * 1000));
+    gsap.ticker.lagSmoothing(0);
+    return smoothScroll;
+}
+
+async function fetchGitHubCommits(username) {
+    try {
+        const response = await fetch(`https://api.github.com/search/commits?q=author:${username}`, {
+            headers: { Accept: 'application/vnd.github.cloak-preview+json' }
+        });
+
+        if (!response.ok) throw new Error('GitHub commit request failed');
+        const data = await response.json();
+        statTargets.commits = data.total_count || 200;
+    } catch (error) {
+        console.warn('GitHub API fetch failed, using fallback:', error);
+    }
+
+    const element = document.getElementById('github-commits-count');
+    if (statsAnimated && element) {
+        animateCounter(element, statTargets.commits, 0, Number(element.dataset.value || 0));
+    }
+}
+
 async function fetchGitHubProjects(username) {
     try {
         const response = await fetch(`https://api.github.com/users/${username}`);
-        if (response.ok) {
-            const data = await response.json();
-            return data.public_repos;
-        }
+        if (!response.ok) throw new Error('GitHub profile request failed');
+        const data = await response.json();
+        statTargets.projects = data.public_repos || 4;
     } catch (error) {
         console.warn('GitHub API fetch failed for projects:', error);
     }
-    return 4; // Fallback
+
+    const element = document.getElementById('projects-count');
+    if (statsAnimated && element) {
+        animateCounter(element, statTargets.projects, 0, Number(element.dataset.value || 0));
+    }
 }
+
+function start() {
+    if (!motionEnabled) {
+        showEverything();
+        initStats();
+        initNavigation();
+        fetchGitHubCommits('rahulbirva');
+        fetchGitHubProjects('rahulbirva');
+        return;
+    }
+
+    gsap.registerPlugin(ScrollTrigger);
+    lenis = initLenis();
+
+    if (!lenis) {
+        window.addEventListener('scroll', () => {
+            updateNavVisibility(window.scrollY);
+            updateMarqueeSpeed(0);
+        }, { passive: true });
+    }
+
+    initIntro();
+    initSectionHeadings();
+    initCopyReveals();
+    initTimeline();
+    initProjects();
+    initToneTransitions();
+    initMarquees();
+    initStats();
+    initNavigation();
+
+    window.addEventListener('load', () => ScrollTrigger.refresh(), { once: true });
+    fetchGitHubCommits('rahulbirva');
+    fetchGitHubProjects('rahulbirva');
+}
+
+start();
