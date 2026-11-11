@@ -39,7 +39,7 @@ function SectionHeader({ index, title, alias }) {
     );
 }
 
-function SkillCard({ skill }) {
+const SkillCard = React.memo(function SkillCard({ skill }) {
     const cardRef = useRef();
 
     const handlePointerMove = (event) => {

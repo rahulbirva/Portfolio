@@ -1,0 +1,36 @@
+/* Design System Overrides */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom color palette (replace with your brand colors) */
+@layer utilities {
+  .bg-brand-100 { @apply bg-[#0d47a1]; }
+  .bg-brand-200 { @apply bg-[#1976d2]; }
+  .text-brand-100 { @apply text-[#0d47a1]; }
+  .text-brand-200 { @apply text-[#1976d2]; }
+}
+
+/* Font families */
+@layer base {
+  body { @apply font-sans; }
+  h1, h2, h3, h4, h5, h6 { @apply font-serif; }
+}
+
+/* Glass Card – lightweight glassmorphism */
+.glass-card {
+  @apply bg-white/5 backdrop-blur-sm border border-white/20 rounded-md shadow-sm p-4 text-white transition-transform duration-200;
+}
+.glass-card:hover { @apply translate-y-[-4px]; }
+
+/* Bento grid layout (asymmetric) */
+.bento-grid {
+  @apply grid gap-4;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+/* Reduce rounded corners globally */
+.rounded-2xl { @apply rounded-md; }
+
+/* Light shadow for performance */
+.shadow-sm { @apply shadow-[0_2px_6px_rgba(0,0,0,0.1)]; }
