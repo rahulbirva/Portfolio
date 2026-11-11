@@ -1,9 +1,9 @@
-import { useMemo, useRef } from 'react';
+import { useMemo, useRef, useEffect } from 'react';
 import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
 import { motionState } from './motionState';
 
-const PARTICLE_COUNT = 3200;
+const BASE_PARTICLE_COUNT = 3200; // fallback for large screens
 
 const vertexShader = `
     uniform float uTime;
