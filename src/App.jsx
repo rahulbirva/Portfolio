@@ -62,7 +62,7 @@ const SkillCard = React.memo(function SkillCard({ skill }) {
     return (
         <div
             ref={cardRef}
-            className="skill-card glass-card"
+            className="skill-card bg-surface rounded-xl shadow-subtle"
             data-reveal
             onPointerMove={handlePointerMove}
             onPointerLeave={resetPointer}
@@ -75,7 +75,7 @@ const SkillCard = React.memo(function SkillCard({ skill }) {
 
 function StatusBadge() {
     return (
-        <div className="hero-badge" id="hero-badge">
+        <div className="hero-badge rounded-xl bg-primary text-white" id="hero-badge">
             <span className="status-dot" aria-hidden="true"></span>
             <span>Available for Internships &amp; Junior Roles</span>
         </div>
@@ -85,7 +85,7 @@ function StatusBadge() {
 function ProjectRow({ project }) {
     return (
         <article className="project-row" data-project={project.id}>
-            <div className="project-visual glass-card" data-project-visual>
+            <div className="project-visual bg-surface rounded-xl shadow-subtle" data-project-visual>
                 <div className="project-visual-inner" data-project-parallax>
                     <div className="terminal-header" aria-hidden="true">
                         <span className="terminal-dot"></span>
@@ -462,7 +462,7 @@ export default function App() {
                 </div>
             </nav>
 
-            <main>
+            <main className="bento-grid">
                 <section id="hero" className="tone-section tone-bone">
                     <div className="container hero-layout">
                         <div className="hero-copy">
@@ -506,7 +506,7 @@ export default function App() {
                                 <div className="timeline-item" data-timeline-entry key={item.date}>
                                     <div className="timeline-dot" aria-hidden="true"></div>
                                     <span className="timeline-date">{item.date}</span>
-                                    <div className="timeline-content glass-card">
+                                    <div className="timeline-content bg-surface rounded-xl shadow-subtle">
                                         <h3>{item.title}</h3>
                                         <p></p>
                                     </div>

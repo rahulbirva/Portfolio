@@ -18,10 +18,7 @@
 }
 
 /* Glass Card – lightweight glassmorphism */
-.glass-card {
-  @apply bg-white/5 backdrop-blur-sm border border-white/20 rounded-md shadow-sm p-4 text-white transition-transform duration-200;
-}
-.glass-card:hover { @apply translate-y-[-4px]; }
+
 
 /* Bento grid layout (asymmetric) */
 .bento-grid {
@@ -30,7 +27,7 @@
 }
 
 /* Reduce rounded corners globally */
-.rounded-2xl { @apply rounded-md; }
+
 
 /* Light shadow for performance */
 .shadow-sm { @apply shadow-[0_2px_6px_rgba(0,0,0,0.1)]; }
